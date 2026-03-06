@@ -54,9 +54,43 @@ export default function ReservationForm() {
 
     setStatus("submitting");
 
-    // Simulate API call (Phase 2 = real API)
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setStatus("success");
+    try {
+      const response = await fetch("/api/reservations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save reservation");
+      }
+
+      // Format WhatsApp Message
+      const message = encodeURIComponent(
+        `Bonjour Le Ciel d'Oran, je souhaite réserver une table :\n\n` +
+        `👤 *Nom:* ${formData.name}\n` +
+        `📅 *Date:* ${formData.date}\n` +
+        `⏰ *Heure:* ${formData.time}\n` +
+        `👥 *Personnes:* ${formData.guests}\n` +
+        `📱 *Contact:* ${formData.phone}\n` +
+        (formData.message ? `💬 *Note:* ${formData.message}` : "")
+      );
+
+      // Open WhatsApp (using the number from seed: 213551234567)
+      // In a real app, this number could be fetched from settings API
+      const whatsappUrl = `https://wa.me/213665478024?text=${message}`;
+      
+      setStatus("success");
+      
+      // Automatic redirect after a short delay
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank');
+      }, 2000);
+
+    } catch (error) {
+      console.error("Submission error:", error);
+      setStatus("error");
+    }
   };
 
   const inputClasses =

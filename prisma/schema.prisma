@@ -43,3 +43,15 @@ model Setting {
   key   String @id // e.g., "contactPhone", "address", "hours"
   value String
 }
+
+model Reservation {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  date      String
+  time      String
+  guests    Int
+  message   String?
+  createdAt DateTime @default(now())
+  status    String   @default("pending") // pending, confirmed, cancelled
+}
