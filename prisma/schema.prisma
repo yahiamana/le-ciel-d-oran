@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model AdminUser {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String // hashed
+}
+
+model Category {
+  id      String @id @default(cuid())
+  titleFr String
+  titleAr String
+  order   Int    @default(0)
+  dishes  Dish[]
+}
+
+model Dish {
+  id          String   @id @default(cuid())
+  nameFr      String
+  nameAr      String
+  description String?
+  price       String
+  order       Int      @default(0)
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId  String
+}
+
+model GalleryItem {
+  id    String @id @default(cuid())
+  alt   String
+  src   String
+  order Int    @default(0)
+}
+
+model Setting {
+  key   String @id // e.g., "contactPhone", "address", "hours"
+  value String
+}

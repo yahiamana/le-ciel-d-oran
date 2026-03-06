@@ -1,26 +1,254 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
+/* ── Tailwind v4 Theme Tokens ───────────────── */
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-fg);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-fg);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-fg);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-fg);
+  --color-border: var(--border-color);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
+  --font-arabic: var(--font-arabic), var(--font-sans), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Light Theme (default) ──────────────────── */
+:root {
+  --background: #FFFBF5;
+  --foreground: #1C1917;
+  --primary: #292524;
+  --primary-fg: #FFFBF5;
+  --accent: #B8860B;
+  --accent-fg: #FFFBF5;
+  --muted: #F5F0EB;
+  --muted-fg: #78716C;
+  --card: rgba(255, 251, 245, 0.85);
+  --card-fg: #1C1917;
+  --border-color: rgba(28, 25, 23, 0.1);
+  --gold: #B8860B;
+  --gold-light: #D4A843;
+  --overlay: rgba(28, 25, 23, 0.6);
+  --glass-bg: rgba(255, 251, 245, 0.6);
+  --glass-border: rgba(184, 134, 11, 0.15);
+}
+
+/* ── Dark Theme ─────────────────────────────── */
+[data-theme="dark"] {
+  --background: #0C0A09;
+  --foreground: #F5F0EB;
+  --primary: #F5F0EB;
+  --primary-fg: #0C0A09;
+  --accent: #D4A843;
+  --accent-fg: #0C0A09;
+  --muted: #1C1917;
+  --muted-fg: #A8A29E;
+  --card: rgba(28, 25, 23, 0.85);
+  --card-fg: #F5F0EB;
+  --border-color: rgba(245, 240, 235, 0.1);
+  --gold: #D4A843;
+  --gold-light: #E8C875;
+  --overlay: rgba(0, 0, 0, 0.7);
+  --glass-bg: rgba(12, 10, 9, 0.6);
+  --glass-border: rgba(212, 168, 67, 0.2);
+}
+
+/* ── Base Styles ────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+}
+
+/* ── Typography ─────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--foreground);
+}
+
+.text-arabic {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  unicode-bidi: bidi-override;
+}
+
+/* ── Glass Card ─────────────────────────────── */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+}
+
+.glass-card-sm {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+/* ── Gold Gradient ──────────────────────────── */
+.gold-gradient {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+}
+
+/* ── Btn Styles ─────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: #0C0A09;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(184, 134, 11, 0.35);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+  color: var(--gold);
+  border: 1.5px solid var(--gold);
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background: var(--gold);
+  color: #0C0A09;
+  transform: translateY(-2px);
+}
+
+/* ── Section Spacing ────────────────────────── */
+.section-padding {
+  padding: 6rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding: 8rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding: 10rem 4rem;
+  }
+}
+
+/* ── Section Title ──────────────────────────── */
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 3rem;
+  }
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--muted-fg);
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+}
+
+/* ── Divider ────────────────────────────────── */
+.gold-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 1.5rem auto;
+}
+
+/* ── Reduce Motion ──────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ── Scrollbar ──────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-light);
+}
+
+/* ── Selection ──────────────────────────────── */
+::selection {
+  background: var(--gold);
+  color: #0C0A09;
 }
